@@ -1,0 +1,124 @@
+<html>
+<head>
+<title>Books demo</title>
+<link rel="stylesheet" href="content/basic.css">
+</head>
+
+<body>
+
+	<!-- Book Template -->
+    <script type="text/html" id="bookTemplate">
+       
+
+        <div data-bind="template: { name: 'bookDataTemplate' } ">
+        </div>
+
+        <div data-bind="template: { name: 'addAuthorsPanelTemplate' } ">
+        </div>
+
+        <div>
+            <h4>Image preview:</h4>
+
+            <form name="upload" method="post" enctype="multipart/form-data">
+                <input id="uploadimage" type="file" name="uploadimage">
+                <input type="submit" data-bind="click: uploadCoverCallback" />
+            </form>
+
+            <img data-bind="visible: haveCover, attr: { src: coverUrl }" height="100" width="100" />
+        </div>
+        
+
+        <div class="actions-panel">
+            <a href="#" data-bind="click: saveChangesCallback">Save changes</a>
+            <a href="#" data-bind="click: removeBookCallback">Remove book</a>
+        </div>
+
+    </script>
+
+	<!-- Add Authors Panel Template -->
+    <script type="text/html" id="addAuthorsPanelTemplate">
+        <div>
+            <!-- <span data-bind="text: authorsPreview"> -->
+
+            <h4>Authors:</h4>
+            <ul data-bind="foreach: authors">
+                <li>
+                    <span data-bind="text: lastname"> </span><span data-bind="text: firstname"> </span>
+                    <a href="#" data-bind="click: $parent.removeAuthorCallback">Remove</a>
+                </li>
+            </ul>
+
+            <a href="#" data-bind="click: switchAddAuthorPanel, text: !addingAuthorModel() ? 'add author' : 'Hide'"></a>
+
+            <div data-bind="visibile: addingAuthorModel, with: addingAuthorModel">
+                <select data-bind="options: allAuthors, optionsText: 'fullname', optionsCaption: 'Select author', value: selectedAuthor"></select>
+                <input type="button" data-bind="click: add" value="Add" />
+            </div>
+        </div>
+    </script>
+
+	<!-- Adding Book Template -->
+	
+    <script type="text/html" id="addBookTemplate">
+        <div data-bind="with: book">
+            <p data-bind="visible: validationErrors, text: validationErrors" class="error-message"></p>
+
+            <h4>Provide some information about the book: </h4>
+            <div data-bind="template: { name: 'bookDataTemplate' } ">
+            </div>
+
+
+            <div data-bind="template: { name: 'addAuthorsPanelTemplate' } ">
+            </div>
+        </div>
+
+        <div>
+            <a href="#" data-bind="click: applyCallback">Create</a>
+            <a href="#" data-bind="click: cancelCallback">Cancel</a>
+        </div>
+    </script>
+
+	<!-- Book Properties Template -->
+	
+    <script type="text/html" id="bookDataTemplate">
+        <p>Book title: <input data-bind="textInput: title" /> </p>
+        <p>Publication year: <input data-bind="textInput: year" /> </p>
+        <p>Publisher: <input data-bind="textInput: publisher" /> </p>
+        <p>Number of pages: <input data-bind="textInput: pageNumber" /> </p>
+        <p>ISBN: <input data-bind="textInput: ISBN" /> </p>
+    </script>
+
+    <script type="text/html" id="emptyTemplate">
+        <p>No book selected</p>
+
+    </script>
+
+    <div class='left'>
+        <h4>All books</h4>
+
+        <a href="#" data-bind="click: $root.openAddBookPanel">[Add new book]</a>
+        <span>Sort by: </span> <select data-bind="options: sorting.sortProperties, optionsText: 'title', value: sorting.selectedSorting"></select>
+        <!--<p><a href="#" data-bind="click: $root.openBookCallback"></p>-->
+
+        <ul data-bind="foreach: books">
+            <li>
+
+                <a href="#" data-bind="click: $root.openBookCallback">
+                    <span data-bind="text: description"> </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class='right' data-bind="with: selectedModel">
+
+        <div data-bind="template: { name: $root.templateName }"></div>
+
+    </div>
+
+    <div class="status" data-bind="text: status.message"></div>
+
+    <script type="text/javascript" src="scripts/index.js"></script>
+</body>
+
+
+</html>
