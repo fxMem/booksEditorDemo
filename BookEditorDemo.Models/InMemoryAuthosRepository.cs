@@ -14,7 +14,7 @@ namespace BookEditorDemo.Models
 
         public InMemoryAuthosRepository()
         {
-            AddSampleAuthors();
+            
         }
 
         public List<Author> GetExistingAuthors()
@@ -22,22 +22,14 @@ namespace BookEditorDemo.Models
             return _authors;
         }
 
-        private void AddSampleAuthors()
-        {
-            AddAuthor("Joanne", "Rowling");
-            AddAuthor("Brandon", "Sanderson");
-            AddAuthor("Leo", "Tolstoy");
-        }
+        
 
         public List<Author> GetAuthors(List<int> authorIds)
         {
             return _authors.Where(a => authorIds.Contains(a.Id)).ToList();
         }
 
-        private void AddAuthor(string firstName, string lastName)
-        {
-            
-        }
+        
 
         public void AddAuthor(Author author)
         {
